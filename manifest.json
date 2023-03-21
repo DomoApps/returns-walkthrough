@@ -1,0 +1,15 @@
+{
+  "name": "Returns Walkthrough",
+  "version": "1.0.0",
+  "size": {
+    "width": 1,
+    "height": 1
+  },
+  "mapping": [
+    {
+      "dataSetId": "bb91163a-3bf4-4ff1-ba33-81f020693f3b",
+      "alias": "returns",
+      "fields": []
+    }
+  ]
+}

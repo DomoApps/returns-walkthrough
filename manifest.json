@@ -2,14 +2,57 @@
   "name": "Returns Walkthrough",
   "version": "1.0.0",
   "size": {
-    "width": 1,
-    "height": 1
+    "width": 4,
+    "height": 3
   },
   "mapping": [
     {
       "dataSetId": "bb91163a-3bf4-4ff1-ba33-81f020693f3b",
       "alias": "returns",
-      "fields": []
+      "fields": [
+        {
+          "alias": "storeNumber",
+          "columnName": "Store Number"
+        },
+        {
+          "alias": "customerName",
+          "columnName": "Customer Name"
+        },
+        {
+          "alias": "SKU",
+          "columnName": "SKU"
+        },
+        {
+          "alias": "itemReturned",
+          "columnName": "Item Returned"
+        },
+        {
+          "alias": "reasonForReturn",
+          "columnName": "Reason for Return"
+        }
+      ]
+    }
+  ],
+  "collections": [
+    {
+      "name": "comments",
+      "schema": {
+        "columns": [
+          {
+            "name": "id",
+            "type": "STRING"
+          },
+          {
+            "name": "user",
+            "type": "STRING"
+          },
+          {
+            "name": "postBody",
+            "type": "STRING"
+          }
+        ]
+      },
+      "syncEnabled": true
     }
   ]
 }

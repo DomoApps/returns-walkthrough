@@ -1,3 +1,31 @@
-body{
+body {
   margin: 0;
+}
+
+.header {
+  background-color: black;
+  color: white;
+  font-weight: 300;
+  padding: 15px;
+}
+
+.bodyContainer {
+  padding: 20px;
+}
+
+.itemContainer {
+  display: grid;
+  grid-template-columns: repeat(5, 20%);
+  align-items: center;
+}
+
+label {
+  font-weight: 400;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.sku {
+  font-size: 10px;
+  opacity: 0.7;
 }

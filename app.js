@@ -59,6 +59,9 @@ function generateRow(item, index, commentDocuments) {
           <textarea id="comment-${index}" placeholder="Add comment"></textarea>
           <button class="btn btn-info" onClick="submitComment(${index})">Submit</button>
         </div>
+        <div>
+          📎 <input type="file" id="attachment-${index}" class="attachment">
+        </div>
       </div> 
      `;
 }
@@ -66,8 +69,17 @@ function generateRow(item, index, commentDocuments) {
 function generateCommentElement(commentDocument) {
   return `
       <div class="commentDocument">
-        <img src="/domo/avatars/v2/USER/${commentDocument.content.user}?size=50&defaultForeground=fff&defaultBackground=000&defaultText=D" alt="User Avatar" />
+        <img src="/domo/avatars/v2/USER/${
+          commentDocument.content.user
+        }?size=50&defaultForeground=fff&defaultBackground=000&defaultText=D" alt="User Avatar" />
         <text>${commentDocument.content.postBody}</text>
+      </div>
+      <div>
+        ${
+          commentDocument.content.attachmentName !== undefined
+            ? `📎 <a href="${commentDocument.content.attachmentURL}" download>${commentDocument.content.attachmentName}</a>`
+            : ""
+        }
       </div>
   `;
 }
@@ -84,6 +96,9 @@ function modifyCommentsContainer(index, className) {
  *
  */
 async function submitComment(index) {
+  const attachment = document.querySelector(`#attachment-${index}`);
+  const file = attachment.files[0];
+  const fileName = attachment.value.replace(/^.*\\/, "");
   const postBody = document.querySelector(`#comment-${index}`);
   let commentDocument = {
     content: {
@@ -92,6 +107,24 @@ async function submitComment(index) {
       postBody: postBody.value,
     },
   };
+  if (file !== undefined) {
+    var formData = new FormData();
+    formData.append("file", file);
+    var postOptions = { contentType: "multipart" };
+    const fileResponse = await domo.post(
+      `domo/data-files/v1?name=${fileName}`,
+      formData,
+      postOptions
+    );
+
+    commentDocument = {
+      content: {
+        ...commentDocument.content,
+        attachmentName: fileName,
+        attachmentURL: `domo/data-files/v1/${fileResponse.dataFileId}`,
+      },
+    };
+  }
 
   await domo.post(
     "/domo/datastores/v1/collections/comments/documents/",
@@ -103,4 +136,5 @@ async function submitComment(index) {
   commentElement.innerHTML = generateCommentElement(commentDocument);
   comments.appendChild(commentElement);
   postBody.value = "";
+  attachment.value = "";
 }

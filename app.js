@@ -29,8 +29,27 @@ function generateRow(item, index) {
           <div>${item.reasonForReturn}</div>
           <div>
             <span class="badge badge-light">0</span>
-            <button class="btn btn-link">Add Comment</button>
+            <button class="btn btn-link" onClick="modifyCommentsContainer(${index}, 'commentsContainer')">Add Comment</button>
           </div>
       </div>   
+
+      <!-- Comments for each return  -->
+      <div class="commentsContainer hidden" id="commentsContainer-${index}">
+        <div class="commentHeader">
+          <label>Comments</label>
+          <button class="btn btn-link" onClick="modifyCommentsContainer(${index}, 'commentsContainer hidden')">Close</button>
+        </div>
+        <div class="addCommentContainer">
+          <textarea id="comment-${index}" placeholder="Add comment"></textarea>
+          <button class="btn btn-info">Submit</button>
+        </div>
+      </div> 
      `;
+}
+
+function modifyCommentsContainer(index, className) {
+  const commentContainer = document.querySelector(
+    `#commentsContainer-${index}`
+  );
+  commentContainer.setAttribute("class", className);
 }

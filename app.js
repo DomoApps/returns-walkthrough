@@ -66,6 +66,7 @@ function generateRow(item, index, commentDocuments) {
 function generateCommentElement(commentDocument) {
   return `
       <div class="commentDocument">
+        <img src="/domo/avatars/v2/USER/${commentDocument.content.user}?size=50&defaultForeground=fff&defaultBackground=000&defaultText=D" alt="User Avatar" />
         <text>${commentDocument.content.postBody}</text>
       </div>
   `;

@@ -39,12 +39,23 @@ function generateRow(item, index) {
           <label>Comments</label>
           <button class="btn btn-link" onClick="modifyCommentsContainer(${index}, 'commentsContainer hidden')">Close</button>
         </div>
+        <div id="comments-${index}">
+          
+        </div>
         <div class="addCommentContainer">
           <textarea id="comment-${index}" placeholder="Add comment"></textarea>
-          <button class="btn btn-info">Submit</button>
+          <button class="btn btn-info" onClick="submitComment(${index})">Submit</button>
         </div>
       </div> 
      `;
+}
+
+function generateCommentElement(commentDocument) {
+  return `
+      <div class="commentDocument">
+        <text>${commentDocument.content.postBody}</text>
+      </div>
+  `;
 }
 
 function modifyCommentsContainer(index, className) {
@@ -52,4 +63,30 @@ function modifyCommentsContainer(index, className) {
     `#commentsContainer-${index}`
   );
   commentContainer.setAttribute("class", className);
+}
+
+/**
+ * For simplicity, we will use the return's index in the array as its unique identifier
+ *
+ */
+async function submitComment(index) {
+  const postBody = document.querySelector(`#comment-${index}`);
+  let commentDocument = {
+    content: {
+      id: index,
+      user: domo.env.userId,
+      postBody: postBody.value,
+    },
+  };
+
+  await domo.post(
+    "/domo/datastores/v1/collections/comments/documents/",
+    commentDocument
+  );
+
+  const comments = document.querySelector(`#comments-${index}`);
+  const commentElement = document.createElement("div");
+  commentElement.innerHTML = generateCommentElement(commentDocument);
+  comments.appendChild(commentElement);
+  postBody.value = "";
 }

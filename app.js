@@ -9,17 +9,24 @@
 
 async function loadData() {
   const returns = await domo.get("/data/v1/returns?limit=100");
+  const commentDocuments = await domo.get(
+    "/domo/datastores/v1/collections/comments/documents"
+  );
 
   const returnsElement = document.querySelector("#returns");
   returns.forEach((item, index) => {
     const row = document.createElement("li");
     row.setAttribute("class", "list-group-item"); // bootstrap class name
-    row.innerHTML = generateRow(item, index);
+    row.innerHTML = generateRow(item, index, commentDocuments);
     returnsElement.appendChild(row);
   });
 }
 
-function generateRow(item, index) {
+function generateRow(item, index, commentDocuments) {
+  const filteredComments = commentDocuments.filter(
+    (commentDocument) => commentDocument.content.id == index
+  );
+
   return `
       <!-- Row of Return Data -->
       <div class="itemContainer">
@@ -28,7 +35,7 @@ function generateRow(item, index) {
           <div>${item.itemReturned}<div class="sku">#${item.SKU}</div></div>
           <div>${item.reasonForReturn}</div>
           <div>
-            <span class="badge badge-light">0</span>
+            <span class="badge badge-light">${filteredComments.length}</span>
             <button class="btn btn-link" onClick="modifyCommentsContainer(${index}, 'commentsContainer')">Add Comment</button>
           </div>
       </div>   
@@ -40,7 +47,13 @@ function generateRow(item, index) {
           <button class="btn btn-link" onClick="modifyCommentsContainer(${index}, 'commentsContainer hidden')">Close</button>
         </div>
         <div id="comments-${index}">
-          
+          ${filteredComments
+            .map((commentDocument) => {
+              return `
+                    ${generateCommentElement(commentDocument)}
+                  `;
+            })
+            .join("")}
         </div>
         <div class="addCommentContainer">
           <textarea id="comment-${index}" placeholder="Add comment"></textarea>

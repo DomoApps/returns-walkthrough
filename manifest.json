@@ -7,7 +7,7 @@
   },
   "mapping": [
     {
-      "dataSetId": "ebda9c79-6427-4738-9682-b6ba5faf2c1b",
+      "dataSetId": "14d527c6-75e2-44e8-abd1-9bd47234f0d2",
       "alias": "returns",
       "fields": [
         {
@@ -55,6 +55,6 @@
       "syncEnabled": true
     }
   ],
-  "id": "f30d5469-8ef2-4c37-be03-e57d5576ec69",
-  "proxyId": "abfde7e3-b6b2-4f2f-9edb-ce25ce07d2ad"
+  "id": "a1ec7ac4-a700-44d6-a194-6dc789c5d1d7",
+  "proxyId": "0a0308ad-ff1e-4181-899c-0008a8f4ed24"
 }

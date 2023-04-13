@@ -7,7 +7,7 @@
   },
   "mapping": [
     {
-      "dataSetId": "bb91163a-3bf4-4ff1-ba33-81f020693f3b",
+      "dataSetId": "14d527c6-75e2-44e8-abd1-9bd47234f0d2",
       "alias": "returns",
       "fields": [
         {
@@ -56,6 +56,6 @@
     }
   ],
   "fileName": "manifest.json",
-  "id": "84a18829-c4e6-41a8-8681-85e2789c4bee",
-  "proxyId": "afeba394-0346-49db-98fc-54bbe86c2669"
+  "proxyId": "0a0308ad-ff1e-4181-899c-0008a8f4ed24",
+  "id": "a1ec7ac4-a700-44d6-a194-6dc789c5d1d7"
 }

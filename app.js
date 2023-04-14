@@ -8,12 +8,23 @@
 // https://developer.domo.com/docs/dev-studio/dev-studio-data
 
 async function loadData() {
-  const returns = await domo.get("/data/v1/returns?limit=100");
+  const returnsElement = document.querySelector("#returns");
+  returnsElement.innerHTML = "";
+  const loadingElement = document.createElement("li");
+  loadingElement.setAttribute("class", "list-group-item"); // bootstrap class name
+  loadingElement.innerHTML = "Loading...";
+  returnsElement.appendChild(loadingElement);
+  const searchTerm = document.querySelector("#searchbox").value;
+  const returns = await domo.get(
+    `/data/v1/returns?limit=100${
+      searchTerm !== "" ? `&filter=customerName~${searchTerm}` : ""
+    }`
+  );
   const commentDocuments = await domo.get(
     "/domo/datastores/v1/collections/comments/documents"
   );
 
-  const returnsElement = document.querySelector("#returns");
+  returnsElement.innerHTML = "";
   returns.forEach((item, index) => {
     const row = document.createElement("li");
     row.setAttribute("class", "list-group-item"); // bootstrap class name
@@ -81,7 +92,18 @@ function generateCommentElement(commentDocument) {
             : ""
         }
       </div>
+      <button type="button" class="btn btn-link" onClick="deleteComment('${
+        commentDocument.id
+      }')">
+        Delete
+      </button>
   `;
+}
+
+function deleteComment(id) {
+  console.log("deleting");
+  domo.delete(`/domo/datastores/v1/collections/comments/documents/${id}`);
+  loadData();
 }
 
 function modifyCommentsContainer(index, className) {
